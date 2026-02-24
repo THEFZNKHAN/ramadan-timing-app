@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  /* Ramadan theme: real night sky + gold */
+  --bg-deep: #060714;
+  --bg-card: #0c0d1a;
+  --accent-gold: #d4a853;
+  --accent-gold-soft: #e8c97a;
+  --text-primary: #f0f2f5;
+  --text-muted: #8b92a0;
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --font-sans-ui: 'Outfit', system-ui, sans-serif;
+  --font-arabic: 'Amiri', serif;
+  /* Animation timing */
+  --ease-out-smooth: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-in-out-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 200ms;
+  --duration-normal: 350ms;
+  --duration-slow: 500ms;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-bg-deep: var(--bg-deep);
+  --color-bg-card: var(--bg-card);
+  --color-accent-gold: var(--accent-gold);
+  --color-accent-gold-soft: var(--accent-gold-soft);
+  --color-text-primary: var(--text-primary);
+  --color-text-muted: var(--text-muted);
+  --font-sans: var(--font-sans-ui);
+  --font-arabic: var(--font-arabic);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--bg-deep);
+    --foreground: var(--text-primary);
+  }
+}
+
+html {
+  scrollbar-gutter: stable;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font-sans-ui);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Page load: gentle fade-in for main content */
+@keyframes page-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Section / card appear */
+@keyframes section-appear {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Expandable content slide */
+@keyframes expand-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-page-in {
+  animation: page-fade-in var(--duration-normal) var(--ease-out-smooth) forwards;
+}
+
+.animate-section-in {
+  animation: section-appear var(--duration-slow) var(--ease-out-smooth) forwards;
+}
+
+.animate-expand-in {
+  animation: expand-in var(--duration-normal) var(--ease-out-smooth) forwards;
+}
+
+/* Smooth transitions for interactive elements */
+.smooth-transition {
+  transition: transform var(--duration-fast) var(--ease-out-smooth),
+    opacity var(--duration-fast) var(--ease-out-smooth),
+    box-shadow var(--duration-fast) var(--ease-out-smooth);
+}
+
+/* Next.js dev overlay portal: keep at top-left */
+nextjs-portal {
+  left: 0 !important;
+  top: 0 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .animate-page-in,
+  .animate-section-in,
+  .animate-expand-in {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
