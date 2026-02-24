@@ -45,7 +45,7 @@ A modern, responsive web app for **Sehri** and **Iftar** times during Ramadan. G
 
 ```bash
 # Clone the repo (or use your own)
-git clone https://github.com/your-username/ramadan-timing-app.git
+git clone https://github.com/thefznkhan/ramadan-timing-app.git
 cd ramadan-timing-app
 
 # Install dependencies
