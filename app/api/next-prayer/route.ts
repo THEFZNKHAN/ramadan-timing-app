@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { fetchTimingsByCoords } from "@/lib/aladhan";
+import type { PrayerTimings } from "@/types/prayer";
+
+const PRAYER_ORDER: (keyof PrayerTimings)[] = [
+	"Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha", "Midnight",
+];
 
 function getNextPrayerFromTimings(
-	timings: Record<string, string>,
+	timings: PrayerTimings,
 	timezone: string
 ): { nextPrayer: string; nextPrayerTime: string } | null {
-	const order = ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha", "Midnight"];
+	const order = PRAYER_ORDER;
 	const now = new Date();
 	const formatter = new Intl.DateTimeFormat("en-GB", {
 		timeZone: timezone,

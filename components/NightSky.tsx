@@ -19,6 +19,7 @@ export default function NightSky() {
 
 		const ctx = canvas.getContext("2d");
 		if (!ctx) return;
+		const context = ctx;
 
 		let animationId: number;
 		let stars: Array<{
@@ -34,15 +35,17 @@ export default function NightSky() {
 		}> = [];
 
 		function resize() {
+			const c = canvasRef.current;
+			if (!c || !context) return;
 			const w = window.innerWidth;
 			const h = window.innerHeight;
 			const dpr = Math.min(window.devicePixelRatio ?? 1, 2);
-			canvas.width = w * dpr;
-			canvas.height = h * dpr;
-			canvas.style.width = `${w}px`;
-			canvas.style.height = `${h}px`;
-			ctx.setTransform(1, 0, 0, 1, 0, 0);
-			ctx.scale(dpr, dpr);
+			c.width = w * dpr;
+			c.height = h * dpr;
+			c.style.width = `${w}px`;
+			c.style.height = `${h}px`;
+			context.setTransform(1, 0, 0, 1, 0, 0);
+			context.scale(dpr, dpr);
 			initStars(w, h);
 			draw();
 		}
@@ -74,15 +77,15 @@ export default function NightSky() {
 		function drawGradient() {
 			const w = window.innerWidth;
 			const h = window.innerHeight;
-			const gradient = ctx.createLinearGradient(0, 0, 0, h);
+			const gradient = context.createLinearGradient(0, 0, 0, h);
 			gradient.addColorStop(0, "#060714");
 			gradient.addColorStop(0.2, "#0a0b18");
 			gradient.addColorStop(0.4, "#080a14");
 			gradient.addColorStop(0.7, "#050710");
 			gradient.addColorStop(1, "#030508");
-			ctx.fillStyle = gradient;
-			ctx.fillRect(0, 0, w, h);
-			const moonGlow = ctx.createRadialGradient(
+			context.fillStyle = gradient;
+			context.fillRect(0, 0, w, h);
+			const moonGlow = context.createRadialGradient(
 				w * 0.85,
 				h * 0.1,
 				0,
@@ -93,8 +96,8 @@ export default function NightSky() {
 			moonGlow.addColorStop(0, MOONLIGHT_GRADIENT);
 			moonGlow.addColorStop(0.5, "rgba(212,168,83,0.02)");
 			moonGlow.addColorStop(1, "transparent");
-			ctx.fillStyle = moonGlow;
-			ctx.fillRect(0, 0, w, h);
+			context.fillStyle = moonGlow;
+			context.fillRect(0, 0, w, h);
 		}
 
 		const prefersReducedMotion =
@@ -114,13 +117,13 @@ export default function NightSky() {
 					twinkle = star.brightness * Math.min(1, base + layer2);
 				}
 				const blur = star.radius >= 2 ? (4 + twinkle * 4) : 2 + twinkle * 2;
-				ctx.shadowColor = `rgba(255, 255, 255, ${0.7 + twinkle * 0.3})`;
-				ctx.shadowBlur = blur;
-				ctx.beginPath();
-				ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-				ctx.fillStyle = `rgba(255, 255, 255, ${twinkle})`;
-				ctx.fill();
-				ctx.shadowBlur = 0;
+				context.shadowColor = `rgba(255, 255, 255, ${0.7 + twinkle * 0.3})`;
+				context.shadowBlur = blur;
+				context.beginPath();
+				context.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+				context.fillStyle = `rgba(255, 255, 255, ${twinkle})`;
+				context.fill();
+				context.shadowBlur = 0;
 			});
 		}
 
